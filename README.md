@@ -1,8 +1,6 @@
-# **CUDA**
+# **GPU Accelerated SAT Solver**
 
 [418 Final Project Report.pdf](https://google.com)
-
-PROPOSAL PDF (also available in github folder) ^
 
 ## **Summary**
 
