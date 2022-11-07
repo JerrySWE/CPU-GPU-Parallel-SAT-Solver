@@ -38,4 +38,4 @@
 | Week 3 (11/21-11/27) | Start writing the CUDA implementation of the SAT Solver. |
 | Week 4 (11/28-12/4)  | Finish implementing CUDA version of the SAT Solver. |
 | Week 5 (12/5-12/11)  | Finalize the code. Measure performance and write up final report. |
-| Week 6 (12/12-12/18) |  |
+| Week 6 (12/12-12/18) | Final Presentation |
