@@ -1,6 +1,10 @@
 # **GPU Accelerated SAT Solver**
 
-[418 Final Project Report.pdf](https://google.com)
+## **Team Member**
+* Jiarui Wang (jiaruiwa)
+* Tejas Badgujar (tbadguja)
+
+[418 Project Link](https://https://github.com/JerryCMU/CUDA-Accelerated-SAT-Solver)
 
 ## **Summary**
 
