@@ -77,13 +77,19 @@ Note that the CNF above is satisfiable with the assignment x = true, y = f alse,
 in the assignment into the CNF, we have:
 
 **(x ∨ ¬x ∨ y) ∧ (z ∨ ¬y ∨ x) ∧ (¬x ∨ ¬z ∨ ¬y)**
+
 **⇐⇒(T ∨ ¬T ∨ F) ∧ (F ∨ ¬F ∨ T) ∧ (¬T ∨ ¬F ∨ ¬F)**
+
 **⇐⇒(T ∨ F ∨ F) ∧ (F ∨ T ∨ T) ∧ (F ∨ T ∨ T)**
+
 **⇐⇒T ∧ T ∧ T**
-**T**
+
+**⇐⇒T**
 
 ## **The Challenge**
-
+* **Workload**
+  In the naive implementation, the entire problem requires exhaustive search through an exponentiallylarge number of variable assignments. The entire search space is going to be evenly distributed to the workers and every worker should have a local copy of the boolean formula and evaluate variable assignments that are assigned to them.
+* **Constraint**
 
 ## **Resources**
 
