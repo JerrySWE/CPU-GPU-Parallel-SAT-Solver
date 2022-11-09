@@ -4,7 +4,8 @@
 * Jiarui Wang (jiaruiwa)
 * Tejas Badgujar (tbadguja)
 
-[418 Project Link](https://https://github.com/JerryCMU/CUDA-Accelerated-SAT-Solver)
+[418 Project Link](https://github.com/JerryCMU/CUDA-Accelerated-SAT-Solver)
+[418 Project Proposal]()
 
 ## **Summary**
 
@@ -19,7 +20,7 @@
 
 
 ## **Goals and Deliverables**
-* 75%
+* 90%
   * Place Holder
 * 100%
   * Place Holder
