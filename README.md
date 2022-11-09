@@ -151,4 +151,5 @@ We will use the GHC machine to develop and debug the code. Since GHC machine has
 
 ## **References**
 [1] “Boolean Satisfiability Problem.” Wikipedia. Wikimedia Foundation, October 24, 2022. https://en.wikipedia.org/wiki/Boolean_satisfiability_problem.
+
 [2] “SAT Solver.” Wikipedia. Wikimedia Foundation, September 1, 2022. https://en.wikipedia.org/wiki/SAT_solver.
