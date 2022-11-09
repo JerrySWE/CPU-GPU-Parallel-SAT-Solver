@@ -5,7 +5,8 @@
 * Tejas Badgujar (tbadguja)
 
 [418 Project Link](https://github.com/JerryCMU/CUDA-Accelerated-SAT-Solver)
-[418 Project Proposal]()
+
+[418 Project Proposal](https://github.com/JerryCMU/CUDA-Accelerated-SAT-Solver)
 
 ## **Summary**
 
