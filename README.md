@@ -26,6 +26,7 @@ To add more detail, a boolean formula is composed of some very basic elements. T
 operators ¬(not), ∨(or) and ∧(and) that connect variables together. These logical operator follows the
 following basic rules
 | x | ¬x|
+| - | --|
 |true|false|
 |false|true|
 
