@@ -6,13 +6,28 @@
 
 [418 Project Link](https://github.com/JerryCMU/CUDA-Accelerated-SAT-Solver)
 
-[418 Project Proposal](https://github.com/JerryCMU/CUDA-Accelerated-SAT-Solver)
+[418 Project Proposal](https://github.com/JerryCMU/CPU-GPU-Parallel-SAT-Solver/blob/main/Project_Proposal.pdf)
 
 ## **Summary**
-
+We will implement a parallel boolean satisfiability problem solver. After implementing the solver with
+thread-level parallelism on CPU and CUDA parallelism on GPU, we will run our program on the GHC
+machine (or another machine similar in specs) to measure and compare the performance and speedup of
+our algorithms.
 
 ## **Background**
+As the first problem proven to be NP complete, SAT is undoubtedly one of the most iconic and fundamental
+computation problem in computer science. It tightly connects to many problems such as type checking,
+automated theorem proving, automated circuit verifying and many other fields.
 
+Boolean satisfiability problem can be summarized into the follow sentence: given a boolean formula, is
+there an assignment of variables that will evaluate the boolean formula to true.
+
+To add more detail, a boolean formula is composed of some very basic elements. There are three logical
+operators ¬(not), ∨(or) and ∧(and) that connect variables together. These logical operator follows the
+following basic rules
+| x | ¬x|
+|true|false|
+|false|true|
 
 ## **The Challenge**
 
