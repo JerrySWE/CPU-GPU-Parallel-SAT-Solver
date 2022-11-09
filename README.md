@@ -25,12 +25,16 @@ there an assignment of variables that will evaluate the boolean formula to true.
 To add more detail, a boolean formula is composed of some very basic elements. There are three logical
 operators ¬(not), ∨(or) and ∧(and) that connect variables together. These logical operator follows the
 following basic rules
-| x | ¬x|        |x | y| x∨y |
-| - | --|        |- | -| ---|
-|true|false|     |true|true|true|
-|false|true|     |true|false|true|
-                 |false|true|true|
-                 |false|false|false|
+| x | ¬x|        
+| - | --|        
+|true|false|     
+|false|true|     
+| x | y | x∨y |
+| - | - | --- |
+|true|true|true|
+|true|false|true|
+|false|true|true|
+|false|false|false|
 
 ## **The Challenge**
 
