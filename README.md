@@ -47,6 +47,41 @@ following basic rules:
 |false|true|false|
 |false|false|false|
 
+Parenthesis could be used to change the order of evaluation just like arithmetic expressions. Since the SAT problem is proven to be NP complete, in the worst case scenario, we would need to evaluate all possible assignment of variables to decide the satisfiability of the boolean expression. The number of possible assignments grows exponentially with the amount of variables since every variable have two possible assignments, true or false.
+
+Note that this exhaustive search across an exponential amount of assignments would benefit greatly from parallelism since the evaluation of each assignment is completely independent from each other and each worker could be assigned with a certain segments of the search and evaluate different assignments themselves. Additionally, other approaches to SAT solving, such as those using DPLL logic and conflict-driven solving, offer speedup compared to the naive implementation and could possibly even further improve from a parallel environment.
+
+Since we could use boolean algebra to convert any arbitrary boolean formula into conjunctive normal form,
+our program will only solve SAT problems in conjunctive normal form. If we have time, we could write a
+converter that will automatically convert any boolean formula into CNF.
+
+A conjunctive normal form is where a boolean formula is only consist of conjunctive of clauses. A clause
+is a disjunction of literals. Literals are either a variable or the negation of a variable.
+
+A conjunctive normal form is where a boolean formula is only consist of conjunctive of clauses. A clause
+is a disjunction of literals. Literals are either a variable or the negation of a variable.
+
+**x, ¬x**
+
+Similarly, x, ¬x and y are literals and if we connect them together with ∨ to form a disjunction, we have
+a clause:
+
+**x ∨ ¬x ∨ y**
+
+To put everything together, if we connect the clauses together with ∧ to form a conjunction of disjunctions,
+we have a boolean formula that is in conjunctive normal form:
+
+**(x ∨ ¬x ∨ y) ∧ (z ∨ ¬y ∨ x) ∧ (¬x ∨ ¬z ∨ ¬y)**
+
+Note that the CNF above is satisfiable with the assignment x = true, y = f alse, z = f alse since if we plug
+in the assignment into the CNF, we have:
+
+**(x ∨ ¬x ∨ y) ∧ (z ∨ ¬y ∨ x) ∧ (¬x ∨ ¬z ∨ ¬y)**
+**⇐⇒(T ∨ ¬T ∨ F) ∧ (F ∨ ¬F ∨ T) ∧ (¬T ∨ ¬F ∨ ¬F)**
+**⇐⇒(T ∨ F ∨ F) ∧ (F ∨ T ∨ T) ∧ (F ∨ T ∨ T)**
+**⇐⇒T ∧ T ∧ T**
+**T**
+
 ## **The Challenge**
 
 
