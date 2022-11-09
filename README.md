@@ -131,19 +131,24 @@ We will be using GHC machines to develop and test our code since we have easy ac
 * 125%
   * Test our algorithm on a set of inputs comparable to that of the ”International SAT Solver Competition” and see how we perform compared to other SAT solvers.
 
+## **Demo Plan**
+We will be demonstrating speedup graph of our many parallel algorithms during the demo. If we are able
+to achieve linear speedup (good workload balance in divide and conquer) or even super linear speedup (use
+of better algorithm), we have done a good job implementing these parallel algorithms.
+
 ## **Platform Choice**
-
-## **Input File Format**
-
-## **MILESTONE**
-
+We will use the GHC machine to develop and debug the code. Since GHC machine has a high performance CPU (i7-9700 with 8 core count) and a high performance GPU (RTX 2080), it will be great for us to test out the speedup of our CPU and GPU parallel code. Both of the team member also have easy access to the machine which makes testing and developing much easier. However, we may choose to run on a local Windows machine that one of our groupmates has (which has a i7-9700K and a RTX 3080) for ease of access and possibly use the PSC Regular-Memory machines based on the results of our intial exploration.
 
 ## **Schedule**
 | Week | Items |
 | ---- | ----- |
 | Week 1 (11/7-11/13)  | Finish writing project proposal and setting up development environment |
-| Week 2 (11/14-11/20) | Finish writing the sequential version of SAT Solver that will run on CPU. Parallelize the SAT solver on CPU with thread-level parallelism. |
-| Week 3 (11/21-11/27) | Start writing the CUDA implementation of the SAT Solver. |
-| Week 4 (11/28-12/4)  | Finish implementing CUDA version of the SAT Solver. |
+| Week 2 (11/14-11/20) | Finish writing the sequential versions (naive, DPLL and CPCL) of SAT Solver that will run on CPU. Parallelize the SAT solver on CPU with thread-level parallelism with naive divide and conquer algorithm. |
+| Week 3 (11/21-11/27) | Start writing the CUDA divide and conquer implementation of the SAT Solver. Combine DPLL and CPCL together to implement the portfolio version of the parallel code on CPU. |
+| Week 4 (11/28-12/4)  | Finish implementing CUDA version of the SAT Solver. Finish the portfolio implementation on CPU. |
 | Week 5 (12/5-12/11)  | Finalize the code. Measure performance and write up final report. |
 | Week 6 (12/12-12/18) | Final Presentation |
+
+## **References**
+[1] “Boolean Satisfiability Problem.” Wikipedia. Wikimedia Foundation, October 24, 2022. https://en.wikipedia.org/wiki/Boolean_satisfiability_problem.
+[2] “SAT Solver.” Wikipedia. Wikimedia Foundation, September 1, 2022. https://en.wikipedia.org/wiki/SAT_solver.
