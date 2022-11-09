@@ -87,7 +87,7 @@ in the assignment into the CNF, we have:
 **⇐⇒T**
 
 ## **The Challenge**
-* **Workload:**
+**Workload:**
 
 In the naive implementation, the entire problem requires exhaustive search through an exponentiallylarge number of variable assignments. The entire search space is going to be evenly distributed to the workers and every worker should have a local copy of the boolean formula and evaluate variable assignments that are assigned to them.
 
@@ -109,9 +109,9 @@ We could also explore the portfolio approach in GPU with each warp group perform
 
 * **Constraint:**
 
-Note that since GPU has limited local memory per warp block, we probably would not be able to load the entire CNF problem into local block memory. We need to figure out a good way to break up CNF into chunks of clauses.
+* Note that since GPU has limited local memory per warp block, we probably would not be able to load the entire CNF problem into local block memory. We need to figure out a good way to break up CNF into chunks of clauses.
 
-On the other hand, we need to figure out how to map variable assignment or different algorithms to each CPU or GPU thread. Mapping to different CPU core should be easier since every core has their individual instruction stream. But mapping to different GPU thread will be challenging since CUDA programming achieves its high parallelism with SIMD and the portfolio approach would require different instruction stream since different thread is supposed to use different algorithms.
+* On the other hand, we need to figure out how to map variable assignment or different algorithms to each CPU or GPU thread. Mapping to different CPU core should be easier since every core has their individual instruction stream. But mapping to different GPU thread will be challenging since CUDA programming achieves its high parallelism with SIMD and the portfolio approach would require different instruction stream since different thread is supposed to use different algorithms.
 
 ## **Resources**
 
