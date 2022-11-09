@@ -87,9 +87,31 @@ in the assignment into the CNF, we have:
 **⇐⇒T**
 
 ## **The Challenge**
-* **Workload**
-  In the naive implementation, the entire problem requires exhaustive search through an exponentiallylarge number of variable assignments. The entire search space is going to be evenly distributed to the workers and every worker should have a local copy of the boolean formula and evaluate variable assignments that are assigned to them.
-* **Constraint**
+* **Workload:**
+
+In the naive implementation, the entire problem requires exhaustive search through an exponentiallylarge number of variable assignments. The entire search space is going to be evenly distributed to the workers and every worker should have a local copy of the boolean formula and evaluate variable assignments that are assigned to them.
+
+There is no dependency between the evaluation of variable assignments so there should be minimum communication between workers and it will be a highly computation intensive workload.
+
+Nevertheless, the evaluation of variable assignments will have drastically different workload depending on the assignment. For example, for a CNF problem with one million clauses, some assignment might cause the first clause to be false and the worker don’t have to evaluate further because for a CNF problem to evaluate to true, every single clause in the CNF will have to be true. Meanwhile, some other assignment might fail on the last clause.
+
+In other word, some assignment may only require the worker to go through a very small subset
+of the CNF while other assignment may require the worker to go through the entire CNF. This will
+make workload balancing very tricky.
+
+There will be high spatial and temporal locality since the worker will refer to the same variable assignment various times during evaluation and the worker is highly likely to evaluate the next adjacent clause in the CNF.
+
+However, after performing some research, there are certain parallel-specific algorithms for SAT solving that we would also like to explore and implement. One such approach is the portfolio approach: instead of splitting the search space amongst processors, it chooses to rather assign each processor the entire search space but have each processor use a different algorithm. Furthermore, with such an approach, we could also look at a mixed approach; with a sufficient amount of cores/nodes, we could group sets of nodes together to all use the same algorithm and also divide up the search space amongst the group. Again, such an approach would not have a lot of communication between processors and would also have high spatial and temporal locality.
+
+Furthermore, we also plan on exploring on whether or not using a GPU may prove beneficial in terms of SAT solving. Our intial assumption may be that the naive divide-and-conquer approach can benefit from the high levels of parallelism a GPU can offer but the size of the problem itself may be too large to fit for a GPU unit. The results of this exploration will be presented in future writeups.
+
+We could also explore the portfolio approach in GPU with each warp group performing a different algorithm and using divide and conquer algorithm within each warp group. But that will also require further research on the GPU architecture and SAT solving algorithms.
+
+* **Constraint:**
+
+Note that since GPU has limited local memory per warp block, we probably would not be able to load the entire CNF problem into local block memory. We need to figure out a good way to break up CNF into chunks of clauses.
+
+On the other hand, we need to figure out how to map variable assignment or different algorithms to each CPU or GPU thread. Mapping to different CPU core should be easier since every core has their individual instruction stream. But mapping to different GPU thread will be challenging since CUDA programming achieves its high parallelism with SIMD and the portfolio approach would require different instruction stream since different thread is supposed to use different algorithms.
 
 ## **Resources**
 
