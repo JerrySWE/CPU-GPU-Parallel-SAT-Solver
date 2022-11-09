@@ -107,23 +107,29 @@ Furthermore, we also plan on exploring on whether or not using a GPU may prove b
 
 We could also explore the portfolio approach in GPU with each warp group performing a different algorithm and using divide and conquer algorithm within each warp group. But that will also require further research on the GPU architecture and SAT solving algorithms.
 
-* **Constraint:**
+**Constraint:**
 
-* Note that since GPU has limited local memory per warp block, we probably would not be able to load the entire CNF problem into local block memory. We need to figure out a good way to break up CNF into chunks of clauses.
+Note that since GPU has limited local memory per warp block, we probably would not be able to load the entire CNF problem into local block memory. We need to figure out a good way to break up CNF into chunks of clauses.
 
-* On the other hand, we need to figure out how to map variable assignment or different algorithms to each CPU or GPU thread. Mapping to different CPU core should be easier since every core has their individual instruction stream. But mapping to different GPU thread will be challenging since CUDA programming achieves its high parallelism with SIMD and the portfolio approach would require different instruction stream since different thread is supposed to use different algorithms.
+On the other hand, we need to figure out how to map variable assignment or different algorithms to each CPU or GPU thread. Mapping to different CPU core should be easier since every core has their individual instruction stream. But mapping to different GPU thread will be challenging since CUDA programming achieves its high parallelism with SIMD and the portfolio approach would require different instruction stream since different thread is supposed to use different algorithms.
 
 ## **Resources**
+We will start from scratch for our implementation. As of currently, we are using Wikipedia as a general reference to the boolean satisfiability problem[1] and SAT solver[2].
 
+We will be using GHC machines to develop and test our code since we have easy access to them and they have good CPU and GPU to test out the performance of our code.
 
 ## **Goals and Deliverables**
 * 90%
-  * Place Holder
+  * Implement a robust naive single-threaded solution on CPU that will use brute force to search through the exponential amount of possible assignments.
+  * Implement a thread level parallel solution on CPU that uses divide and conquer to search through the exponential amount of possible assignments.
+  * Implement a CUDA parallel solution on GPU that uses divide and conquer to search through the exponential amount of possible assignments.
+  * Implement strong sequential, single-core algorithms (DPLL and CPCL algorithms) on CPU for SAT solving
+  * Combine DPLL and CPCL together to implement a portfolio based parallel SAT solver on CPU.
 * 100%
-  * Place Holder
+  * Implement more complex single-threaded SAT solvers and see if we can find a ideal balance between number/type of algorithms, number of cores, and problem size to find the best fit for any SAT solver.
+  * Combine the SIMD nature of each warp block and how each warp block could have different instruction streams to create a portfolio and divide and conquer hybrid solution in CUDA.
 * 125%
-  * Place Holder
-
+  * Test our algorithm on a set of inputs comparable to that of the ”International SAT Solver Competition” and see how we perform compared to other SAT solvers.
 
 ## **Platform Choice**
 
