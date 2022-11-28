@@ -10,6 +10,8 @@ def generateTestCase(vNum, cNum, outputPath):
 
     f = open(outputPath, "w")
 
+    f.write(str(vNum) + " " + str(cNum) + "\n")
+
     for i in range(cNum):
         clause = ""
         for j in range(clauseSize-1):
