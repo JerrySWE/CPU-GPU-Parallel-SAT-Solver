@@ -7,9 +7,6 @@
 
 /*
  * Each bit will correspond to a boolean assignment to a variable
- * 1-8 variables should have set size 1
- * 9-16 variables should have set size 2
- * 17-24 variables should have set size 3
  */
 
 class BoolSet {
@@ -51,6 +48,11 @@ class BoolSet {
                 curr_index++;
             } else {
                 bool_set[curr_index]++;
+
+                if ((curr_index == set_size - 1) && (bool_set[curr_index] >> (variable_count % 8))) {
+                    return false;
+                }
+
                 return true;
             }
         }

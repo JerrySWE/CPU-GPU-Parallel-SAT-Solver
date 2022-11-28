@@ -8,9 +8,7 @@
 
 /*
  * Each bit will correspond to a boolean assignment to a variable
- * 1-8 variables should have set size 1
- * 9-16 variables should have set size 2
- * 17-24 variables should have set size 3
+ * since size_t is only 64 bits, this boolean assignment will contain only 
  */
 
 class BigIntRepr {
@@ -27,7 +25,7 @@ class BigIntRepr {
     }
 
     bool getAssignment(size_t index) {
-        return ((assignment >> index) & 0x1) == 0x1;
+        return (assignment >> index) & 0x1;
     }
 
     bool incrementSet() {
