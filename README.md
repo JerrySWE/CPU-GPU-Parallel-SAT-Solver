@@ -147,8 +147,7 @@ We will use the GHC machine to develop and debug the code. Since GHC machine has
 | Week 1 (11/7-11/13)  | Finish writing project proposal and setting up development environment |
 | Week 2 (11/14-11/20) | Finished writing uniform 3-SAT problem generator python script for test case generation. Found 3-SAT international benchmarks online for more standardized testing. Finished file I/O structure of the code. Designed and implemented two different boolean assignment representation. |
 | Week 3 (11/21-11/27) | Finished basic sequential naive brute force algorithm. Finished basic sequential DPLL algorithm. |
-| Week 4 (11/28-12/4)  | Implement basic sequential CDCL algorithm. (Tejas) Implement and benchmark vector based and thread based divide and conquer parallelism on
-naive brute force algorithm. (Jerry) Start on CUDA implementation of divide and conquer brute force algorithm. (Jerry) |
+| Week 4 (11/28-12/4)  | Implement basic sequential CDCL algorithm. (Tejas) Implement and benchmark vector based and thread based divide and conquer parallelism on naive brute force algorithm. (Jerry) Start on CUDA implementation of divide and conquer brute force algorithm. (Jerry) |
 | Week 5 (12/5-12/11)  | Combining DPLL and CDCL together to create the portfolio algorithm. (Tejas) Finish CUDA implementation of the naive brute force algorithm. (Jerry) Combining DPLL and divide and conquer together to create a divide and conquer DPLL algorithm (Jerry) |
 | Week 6 (12/12-12/18) | Prepare Final Presentation |
 
