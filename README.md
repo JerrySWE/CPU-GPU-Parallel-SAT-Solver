@@ -4,9 +4,11 @@
 * Jiarui Wang (jiaruiwa)
 * Tejas Badgujar (tbadguja)
 
-[418 Project Link](https://github.com/JerryCMU/CUDA-Accelerated-SAT-Solver)
+[Project Link](https://github.com/JerryCMU/CUDA-Accelerated-SAT-Solver)
 
-[418 Project Proposal](https://github.com/JerryCMU/CPU-GPU-Parallel-SAT-Solver/blob/main/Project_Proposal.pdf)
+[Project Proposal](https://github.com/JerryCMU/CPU-GPU-Parallel-SAT-Solver/blob/main/Project_Proposal.pdf)
+
+[Project Milestone Report](https://github.com/JerryCMU/CPU-GPU-Parallel-SAT-Solver/blob/main/Milestone_Report.pdf)
 
 ## **Summary**
 We will implement a parallel boolean satisfiability problem solver. After implementing the solver with
@@ -143,13 +145,16 @@ We will use the GHC machine to develop and debug the code. Since GHC machine has
 | Week | Items |
 | ---- | ----- |
 | Week 1 (11/7-11/13)  | Finish writing project proposal and setting up development environment |
-| Week 2 (11/14-11/20) | Finish writing the sequential versions (naive, DPLL and CPCL) of SAT Solver that will run on CPU. Parallelize the SAT solver on CPU with thread-level parallelism with naive divide and conquer algorithm. |
-| Week 3 (11/21-11/27) | Start writing the CUDA divide and conquer implementation of the SAT Solver. Combine DPLL and CPCL together to implement the portfolio version of the parallel code on CPU. |
-| Week 4 (11/28-12/4)  | Finish implementing CUDA version of the SAT Solver. Finish the portfolio implementation on CPU. |
-| Week 5 (12/5-12/11)  | Finalize the code. Measure performance and write up final report. |
-| Week 6 (12/12-12/18) | Final Presentation |
+| Week 2 (11/14-11/20) | Finished writing uniform 3-SAT problem generator python script for test case generation. Found 3-SAT international benchmarks online for more standardized testing. Finished file I/O structure of the code. Designed and implemented two different boolean assignment representation. |
+| Week 3 (11/21-11/27) | Finished basic sequential naive brute force algorithm. Finished basic sequential DPLL algorithm. |
+| Week 4 (11/28-12/4)  | Implement basic sequential CDCL algorithm. (Tejas) Implement and benchmark vector based and thread based divide and conquer parallelism on
+naive brute force algorithm. (Jerry) Start on CUDA implementation of divide and conquer brute force algorithm. (Jerry) |
+| Week 5 (12/5-12/11)  | Combining DPLL and CDCL together to create the portfolio algorithm. (Tejas) Finish CUDA implementation of the naive brute force algorithm. (Jerry) Combining DPLL and divide and conquer together to create a divide and conquer DPLL algorithm (Jerry) |
+| Week 6 (12/12-12/18) | Prepare Final Presentation |
 
 ## **References**
 [1] “Boolean Satisfiability Problem.” Wikipedia. Wikimedia Foundation, October 24, 2022. https://en.wikipedia.org/wiki/Boolean_satisfiability_problem.
 
 [2] “SAT Solver.” Wikipedia. Wikimedia Foundation, September 1, 2022. https://en.wikipedia.org/wiki/SAT_solver.
+
+[3] SATLIB - Benchmark Problems. https://www.cs.ubc.ca/~hoos/SATLIB/benchm.html
