@@ -20,8 +20,13 @@ class BigIntRepr {
         if (init_variable_count > 64) {
             throw std::invalid_argument("Big integer representation does not support more than 64 boolean variables!");
         }
-        limit = 1 << init_variable_count;
+        size_t base = 1;
+        limit = base << init_variable_count;
         assignment = 0;
+    }
+
+    void setStart(size_t start) {
+        assignment = start;
     }
 
     bool getAssignment(size_t index) {
