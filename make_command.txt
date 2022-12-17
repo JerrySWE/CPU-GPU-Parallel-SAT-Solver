@@ -1,4 +1,5 @@
 mkdir -p objs/
-g++ -m64 main.cpp -O3 -Wall -c -o objs/main.o
-nvcc saxpy.cu -O3 -m64 --gpu-architecture compute_61 -ccbin /usr/bin/gcc -c -o objs/saxpy.o
-g++ -m64 -O3 -Wall -o cudaSaxpy objs/main.o  objs/saxpy.o -L/usr/local/cuda-11.7/lib64/ -lcudart
+g++ -m64 gpu_divide_conquer.cpp -O3 -Wall -c -o objs/main.o
+nvcc solver.cu -O3 -m64 --gpu-architecture compute_61 -ccbin /usr/bin/gcc -c -o objs/solver.o
+g++ -m64 -O3 -Wall -o gpuSolver objs/main.o  objs/solver.o -L/usr/local/cuda-11.7/lib64/ -lcudart
+./gpuSolver -i uni-gen-3cnf/v27c125.txt

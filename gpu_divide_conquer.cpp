@@ -1,75 +1,75 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <iostream>
+#include <fstream>
+#include <vector>
 #include <getopt.h>
 #include <string>
 
-void saxpyCuda(int N, float alpha, float* x, float* y, float* result);
+void SATCuda(int* CNF, int v_count, int c_count);
 void printCudaInfo();
-
-
-// return GB/s
-float toBW(int bytes, float sec) {
-  return static_cast<float>(bytes) / (1024. * 1024. * 1024.) / sec;
-}
-
 
 void usage(const char* progname) {
     printf("Usage: %s [options]\n", progname);
     printf("Program Options:\n");
-    printf("  -n  --arraysize <INT>  Number of elements in arrays\n");
-    printf("  -?  --help             This message\n");
+    printf("  -i  Input test case path\n");
+    printf("  -o  Output test case path\n");
 }
 
+void readFile(char *input_file_path, std::vector<int> &CNF, int &v_count, int &c_count) {
+    std::ifstream infile(input_file_path);
+
+    infile >> v_count >> c_count;
+
+    printf("v_count: %d\n", v_count);
+
+    int c1, c2, c3;
+
+    while (infile >> c1 >> c2 >> c3) {
+        CNF.emplace_back(c1);
+        CNF.emplace_back(c2);
+        CNF.emplace_back(c3);
+    }
+}
 
 int main(int argc, char** argv)
 {
+    int option;
+    option = getopt(argc, argv, "i:o:");
+    char *input_file_path = nullptr;
+    char *output_file_path = nullptr;
 
-    int N = 20 * 1000 * 1000;
-
-    // parse commandline options ////////////////////////////////////////////
-    int opt;
-    static struct option long_options[] = {
-        {"arraysize",  1, 0, 'n'},
-        {"help",       0, 0, '?'},
-        {0 ,0, 0, 0}
-    };
-
-    while ((opt = getopt_long(argc, argv, "?n:", long_options, NULL)) != EOF) {
-
-        switch (opt) {
-        case 'n':
-            N = atoi(optarg);
-            break;
-        case '?':
-        default:
-            usage(argv[0]);
-            return 1;
+    while (option != -1) {
+        switch (option) {
+            case 'i':
+                input_file_path = optarg;
+                break;
+            case 'o':
+                output_file_path = optarg;
+                break;
+            default:
+                usage(argv[0]);
+                return 1;
         }
+        option = getopt(argc, argv, "i:o:");
     }
-    // end parsing of commandline options //////////////////////////////////////
 
-    const float alpha = 2.0f;
-    float* xarray = new float[N];
-    float* yarray = new float[N];
-    float* resultarray = new float[N];
+    int v_count, c_count;
+    std::vector<int> CNF;
 
-    // load X, Y, store result
-    int totalBytes = sizeof(float) * 3 * N;
+    readFile(input_file_path, CNF, v_count, c_count);
 
-    for (int i=0; i<N; i++) {
-        xarray[i] = yarray[i] = i % 10;
-        resultarray[i] = 0.f;
+    int *CNF_array = new int[c_count*3];
+
+    for (size_t i = 0; i < CNF.size(); i++) {
+        CNF_array[i] = CNF[i];
    }
 
     printCudaInfo();
 
-    for (int i=0; i<3; i++) {
-      saxpyCuda(N, alpha, xarray, yarray, resultarray);
-    }
+    SATCuda(CNF_array, v_count, c_count);
 
-    delete [] xarray;
-    delete [] yarray;
-    delete [] resultarray;
+    delete [] CNF_array;
 
     return 0;
 }
