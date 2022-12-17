@@ -4,7 +4,10 @@
 #include <chrono>
 #include "BoolSet.h"
 #include "BigIntRepr.h"
+#include "CentralQueue.h"
 #include <bits/stdc++.h>
+
+void solveSAT(int N, float alpha, float* x, float* y, float* result);
 
 void readFileLegacy(char *input_file_path, std::vector<int> &CNF, int &v_count, int &c_count) {
     std::ifstream infile(input_file_path);
@@ -182,9 +185,9 @@ void readFile(char *input_file_path, std::vector<int> &CNF, int &v_count) {
         CNF.emplace_back(c3);
     }
 
-    for (int i = 0; i < CNF.size(); i += 3) {
-        std::cout << CNF[i] << " " << CNF[i+1] << " " << CNF[i+2] << std::endl;
-    }
+    // for (int i = 0; i < CNF.size(); i += 3) {
+    //     std::cout << CNF[i] << " " << CNF[i+1] << " " << CNF[i+2] << std::endl;
+    // }
 }
 
 /*
@@ -245,40 +248,134 @@ void solveSeq(std::vector<int> &CNF, size_t v_count, char *output_file_path) {
     return;
 }
 
-void solveThreadBlock(std::vector<int> &CNF, size_t v_count, size_t c_count, char *output_file_path, size_t thread_id, size_t thread_count, bool *flag) {
+void solveThreadBlock(std::vector<int> &CNF, size_t v_count, char *output_file_path, size_t thread_id, size_t thread_count, bool *flag) {
     uint64_t base = 1;
     uint64_t search_space = base << v_count; 
     uint64_t thread_search_space = search_space / thread_count;
     uint64_t thread_start = thread_id * thread_search_space;
 
-    for (uint64_t assignment = thread_start; assignment < thread_start + thread_search_space; assignment++) {
+    auto start = std::chrono::high_resolution_clock::now();
+    auto stop = std::chrono::high_resolution_clock::now();
 
+    for (uint64_t assignment = thread_start; assignment < thread_start + thread_search_space; assignment++) {
+        if (*flag) {
+            std::cout << "CNF solved by other thread!" << std::endl;
+            break;
+        }
+
+        if (solve(assignment, CNF)) {
+            *flag = true;
+            std::cout << "CNF solved by thread " << thread_id << std::endl;
+            writeAssignment(output_file_path, assignment, v_count);
+            break;
+        }
     }
+    stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start);
+    std::cout << "Thread " << thread_id << " execution time " << duration.count() << " ms\n";
 }
 
-void solveThreadInterleave(std::vector<int> &CNF, int v_count, int c_count, char *output_file_path, size_t thread_id, size_t thread_count, bool *flag) {
+void solveThreadInterleave(std::vector<int> &CNF, int v_count, char *output_file_path, size_t thread_id, size_t thread_count, bool *flag) {
     uint64_t base = 1;
     uint64_t search_space = base << v_count; 
     uint64_t thread_search_space = search_space / thread_count;
+    auto start = std::chrono::high_resolution_clock::now();
+    auto stop = std::chrono::high_resolution_clock::now();
 
     for (uint64_t assignment = thread_id; assignment < search_space; assignment+=thread_count) {
-        
+        if (*flag) {
+            std::cout << "CNF solved by other thread!" << std::endl;
+            return;
+        }
+
+        if (solve(assignment, CNF)) {
+            *flag = true;
+            std::cout << "CNF solved by thread " << thread_id << std::endl;
+            writeAssignment(output_file_path, assignment, v_count);
+            return;
+        }
     }
+    stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start);
+    std::cout << "Thread " << thread_id << " execution time " << duration.count() << " ms\n";
 }
 
-void solveThreadCentralQueue(std::vector<int> &CNF, int v_count, int c_count, char *output_file_path, size_t thread_id, size_t thread_count, bool *flag) {
+uint64_t curr_assignment = 0;
+std::mutex assignment_lock;
 
+void solveThreadCentralQueue(std::vector<int> &CNF, int v_count, char *output_file_path, bool *flag, int granularity) {
+    uint64_t base = 1;
+    uint64_t limit = base << v_count;
+    uint64_t start_assignment;
+    uint64_t end_assignment;
+    auto start = std::chrono::high_resolution_clock::now();
+
+    while (true) {
+        assignment_lock.lock();
+        if (curr_assignment > limit) {
+             assignment_lock.unlock();
+             break;
+        }
+
+        start_assignment = curr_assignment;
+        curr_assignment += granularity;
+        end_assignment = curr_assignment;
+
+        assignment_lock.unlock();
+
+        for (uint64_t assignment = start_assignment; assignment < end_assignment; assignment++) {
+            if (*flag) {
+                std::cout << "CNF solved by other thread!" << std::endl;
+                return;
+            }
+
+            if (solve(assignment, CNF)) {
+                *flag = true;
+                writeAssignment(output_file_path, assignment, v_count);
+                return;
+            }
+        }
+    }
+
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start);
+    std::cout << "Thread execution time " << duration.count() << " ms\n";
+}
+
+void divideAndConquer(std::vector<int> &CNF, int v_count, char *output_file_path, size_t thread_count, int granularity) {
+    std::vector<std::thread> threads;
+    bool flag = false;
+    curr_assignment = 0;
+    // for (int i = 0; i < thread_count; i++) {
+    //     threads.emplace_back(std::thread(solveThreadBlock, std::ref(CNF), v_count, output_file_path, i, thread_count, &flag));
+    // }
+
+    for (int i = 0; i < thread_count; i++) {
+        threads.emplace_back(std::thread(solveThreadCentralQueue, std::ref(CNF), v_count, output_file_path, &flag, granularity));
+    }
+
+    for (auto &t : threads) {
+        t.join();
+    }
+
+    if (flag) {
+        std::cout << "SOLVABLE!\n";
+    } else {
+        std::cout << "UNSOLVABLE!\n";
+    }
 }
 
 int main(int argc, char**argv) {
 
     int option;
-    option = getopt(argc, argv, "i:o:p:");
+    option = getopt(argc, argv, "i:o:p:r:g:");
     char *input_file_path;
     char *output_file_path;
     
     int thread_count = 0;
     bool thread_parallel = false;
+    int repeat_time = 1;
+    int granularity = 1;
 
     while (option != -1) {
         switch (option) {
@@ -292,21 +389,39 @@ int main(int argc, char**argv) {
                 thread_count = std::stoi(optarg);
                 thread_parallel = true;
                 break;
+            case 'r':
+                repeat_time = std::stoi(optarg);
+                break;
+            case 'g':
+                granularity = std::stoi(optarg);
+                break;
         }
-        option = getopt(argc, argv, "i:o:p:");
+        option = getopt(argc, argv, "i:o:p:r:g:");
     }
 
     std::vector<int> CNF;
     int v_count;
     readFile(input_file_path, CNF, v_count);
 
-    if (thread_parallel) {
-        std::cout << "Parallel execution!" << std::endl;
-        // bruteForceThreadParallel(input_file_path, output_file_path, thread_count);
-    } else {
-        solveSeq(CNF, v_count, output_file_path);
+    auto start = std::chrono::high_resolution_clock::now();
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop-start);
+
+    for (int i = 0; i < repeat_time; i++) {
+        std::cout << "Iteration " << i << std::endl;
+        start = std::chrono::high_resolution_clock::now();
+        if (thread_parallel) {
+            divideAndConquer(CNF, v_count, output_file_path, thread_count, granularity);
+        } else {
+            solveSeq(CNF, v_count, output_file_path);
+        }
+        stop = std::chrono::high_resolution_clock::now();
+        std::cout << "Iteration Execution time: " << std::chrono::duration_cast<std::chrono::milliseconds>(stop-start).count() << " ms" << std::endl; 
+        duration += std::chrono::duration_cast<std::chrono::milliseconds>(stop-start);
     }
 
+    std::cout << "Total Execution time: " << duration.count() << " ms" << std::endl; 
+    std::cout << "Average Execution time: " << duration.count() / repeat_time << " ms" << std::endl; 
 
     return 0;
 }

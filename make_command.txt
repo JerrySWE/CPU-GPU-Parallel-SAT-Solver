@@ -1,0 +1,4 @@
+mkdir -p objs/
+g++ -m64 main.cpp -O3 -Wall -c -o objs/main.o
+nvcc saxpy.cu -O3 -m64 --gpu-architecture compute_61 -ccbin /usr/bin/gcc -c -o objs/saxpy.o
+g++ -m64 -O3 -Wall -o cudaSaxpy objs/main.o  objs/saxpy.o -L/usr/local/cuda-11.7/lib64/ -lcudart

@@ -46,28 +46,31 @@ def readSol(solutionPath):
 
     return solution
 
+def verifyAssignment(assignment, CNF):
+    for i in range(0, len(CNF), 3):
+        c1 = CNF[i]
+        c2 = CNF[i+1]
+        c3 = CNF[i+2]
+
+        if (getBoolVal(assignment, c1) or 
+            getBoolVal(assignment, c2) or
+            getBoolVal(assignment, c3)):
+            continue
+        else:
+            return False
+
+    return True
+
 def verifyUnsatisfiable(testFilePath):
 
     vCount, CNF = readCNF(testFilePath)
 
-    for assignment in range(1<<vCount):
-        satisfiable = True
+    for assignment in range(80000000, 1<<vCount):
+        if (assignment % 10000000 == 0):
+            print(assignment)
 
-        for i in range(0, len(CNF), 3):
-            c1 = CNF[i]
-            c2 = CNF[i+1]
-            c3 = CNF[i+2]
-
-            if (getBoolVal(assignment, c1) or 
-                getBoolVal(assignment, c2) or
-                getBoolVal(assignment, c3)):
-                continue
-            else:
-                satisfiable = False
-                break
-
-        if (satisfiable):
-            print("CNF satisfiable")
+        if (verifyAssignment(assignment, CNF)):
+            print(f"CNF satisfiable with {assignment}")
             return
     
     print("CNF unsatisfiable")
