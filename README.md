@@ -10,6 +10,8 @@
 
 [Project Milestone Report](https://github.com/JerryCMU/CPU-GPU-Parallel-SAT-Solver/blob/main/Milestone_Report.pdf)
 
+[Project Final Report](https://github.com/JerryCMU/CPU-GPU-Parallel-SAT-Solver/blob/main/final_report.pdf)
+
 ## **Summary**
 We will implement a parallel boolean satisfiability problem solver. After implementing the solver with
 thread-level parallelism on CPU and CUDA parallelism on GPU, we will run our program on the GHC
