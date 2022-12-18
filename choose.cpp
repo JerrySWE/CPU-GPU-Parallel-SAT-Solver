@@ -20,6 +20,28 @@ int chooseLiteral() {
     return maxLiteral;
 }
 
+// separate + and -, choose opposite
+int chooseLiteral() {
+    int maxLiteral = 0;
+    int maxFrequency = -1;
+
+    for (int i = 1; i < (int)frequencies.size(); i++) {
+        pair<int, int> frequency = frequencies[i];
+        if (literalStates[i].assignment == 0) {
+            if (frequency.first > maxFrequency) {
+                maxLiteral = -i;
+                maxFrequency = frequency.first;
+            }
+            if (frequency.second > maxFrequency) {
+                maxLiteral = i;
+                maxFrequency = frequency.second;
+            }
+        }
+    }
+
+    return maxLiteral;
+}
+
 // combine + and -, choose largest frequency
 int chooseLiteral() {
     int maxLiteral = 0;
@@ -35,6 +57,30 @@ int chooseLiteral() {
                 }
                 else {
                     maxLiteral = -i;
+                    maxFrequency = frequency.second;
+                }
+            }
+        }
+    }
+
+    return maxLiteral;
+}
+
+// combine + and -, choose opposite
+int chooseLiteral() {
+    int maxLiteral = 0;
+    int maxFrequency = -1;
+
+    for (int i = 1; i < (int)frequencies.size(); i++) {
+        pair<int, int> frequency = frequencies[i];
+        if (literalStates[i].assignment == 0) {
+            if (frequency.first + frequency.second > maxFrequency) {
+                if (frequency.first > frequency.second) {
+                    maxLiteral = -i;
+                    maxFrequency = frequency.first;
+                }
+                else {
+                    maxLiteral = i;
                     maxFrequency = frequency.second;
                 }
             }
