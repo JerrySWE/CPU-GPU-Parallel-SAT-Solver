@@ -55,7 +55,7 @@ SATCuda(int* CNF, int v_count, int c_count) {
     uint64_t problem_size = base << v_count;
 
     // compute number of blocks and threads per block
-    const int threadsCount = 1<<5;
+    const int threadsCount = 1<<20;
     const int threadsPerBlock = 32;
     const int blocks = (threadsCount) / threadsPerBlock;
 

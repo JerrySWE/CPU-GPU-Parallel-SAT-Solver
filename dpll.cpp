@@ -10,13 +10,13 @@ using namespace std;
 #include <chrono>
 using namespace std::chrono;
 
-void printClause(vector<int> &clause) {
+void printClause(vector<int>& clause) {
     for (int term : clause) {
         cout << term << " ";
     }
 }
 
-void printClauses(vector<vector<int>> &clauses) {
+void printClauses(vector<vector<int>>& clauses) {
     cout << "clauses: \n";
     for (vector<int> clause : clauses) {
         printClause(clause);
@@ -24,7 +24,7 @@ void printClauses(vector<vector<int>> &clauses) {
     }
 }
 
-void printFrequencies(vector<pair<int, int>> &frequencies) {
+void printFrequencies(vector<pair<int, int>>& frequencies) {
     cout << "frequencies: \n";
     for (int i = 1; i < (int)frequencies.size(); i++) {
         pair<int, int> frequency = frequencies[i];
@@ -45,7 +45,7 @@ bool checkEmptyClause(vector<vector<int>>& clauses) {
     return false;
 }
 
-int checkPureLiteral(vector<pair<int,int>>& frequencies) {
+int checkPureLiteral(vector<pair<int, int>>& frequencies) {
     for (int i = 1; i < (int)frequencies.size(); i++) {
         pair<int, int> frequency = frequencies[i];
         if (frequency.first == 0 && frequency.second != 0) {
@@ -59,7 +59,7 @@ int checkPureLiteral(vector<pair<int,int>>& frequencies) {
     return 0;
 }
 
-int checkUnitClause(vector<vector<int>> &clauses) {
+int checkUnitClause(vector<vector<int>>& clauses) {
     for (int i = 0; i < (int)clauses.size(); i++) {
         if (clauses[i].size() == 1) {
             return clauses[i][0];
@@ -69,10 +69,10 @@ int checkUnitClause(vector<vector<int>> &clauses) {
     return 0;
 }
 
-inline void assignInClauses(vector<vector<int>> &clauses, vector<pair<int, int>> &frequencies, int trueLiteral) {
+inline void assignInClauses(vector<vector<int>>& clauses, vector<pair<int, int>>& frequencies, int trueLiteral) {
     int indexTrueLiteral = abs(trueLiteral);
     for (int i = (int)clauses.size() - 1; i >= 0; i--) {
-        vector<int> &clause = clauses[i];
+        vector<int>& clause = clauses[i];
         for (int j = (int)clause.size() - 1; j >= 0; j--) {
             if (clause[j] == trueLiteral) {
                 for (int clauseLiteral : clauses[i]) {
@@ -117,7 +117,7 @@ int chooseLiteral(vector<pair<int, int>> frequencies) {
     return maxLiteral;
 }
 
-bool DPLL(vector<vector<int>> &clauses, vector<pair<int, int>> &frequencies) {
+bool DPLL(vector<vector<int>>& clauses, vector<pair<int, int>>& frequencies) {
     if (checkClausesEmpty(clauses)) {
         return true;
     }
@@ -161,7 +161,7 @@ bool basicDPLL() {
     cin >> filePath;
     clausesFile.open(filePath);*/
 
-    clausesFile.open("D:\\basic_cnf\\uuf100-03.cnf");
+    clausesFile.open("D:\\basic_cnf\\uf20-01.cnf");
 
     if (!clausesFile) {
         std::cout << "Invalid file path.";
